@@ -315,7 +315,7 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 
 /* ---------- Abertura ---------- */
 .intro{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:0}
-.intro .logo{width:78px;margin:0 auto 20px;border-radius:var(--r-card)}
+.intro .logo{width:112px;margin:0 auto 20px;border-radius:var(--r-card)}
 .intro h1{font-size:2rem;line-height:1.12;margin-bottom:14px}
 .intro p{color:var(--ink-soft);margin:0 auto 26px;max-width:34ch;font-size:1.02rem}
 .intro .time{
@@ -581,7 +581,7 @@ function renderIntro(){
   var el = document.createElement("div");
   el.className = "screen intro";
   el.innerHTML =
-    '<img class="logo" src="'+SITE+'/images/logo.png" alt="Chef Gui" width="78" height="78">' +
+    '<img class="logo" src="'+SITE+'/images/logo.png" alt="Chef Gui" width="112" height="112">' +
     '<h1>Descubra o que trava a sua semana na cozinha.</h1>' +
     '<p>Responda 11 perguntas rápidas e eu monto o seu diagnóstico: o que te prende no delivery, quanto isso custa por mês e o roteiro que resolve o seu caso.</p>' +
     '<button class="cta" id="start" type="button">Começar meu diagnóstico ' + ICON.arrow + '</button>' +

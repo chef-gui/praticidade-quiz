@@ -1,6 +1,6 @@
 # Praticidade Quiz
 
-Quiz de vendas do **Guia de Pré-Preparo e Praticidade** (Chef Gui). Tráfego frio de anúncio no Instagram entra aqui, responde 11 perguntas, recebe um diagnóstico personalizado e cai no checkout de R$47.
+Quiz de vendas do **Guia de Pré-Preparo e Praticidade** (Chef Gui). Tráfego frio de anúncio no Instagram entra aqui, responde 12 perguntas, recebe um diagnóstico personalizado e cai no checkout de R$47.
 
 O quiz inteiro é **um arquivo só**: [`index.html`](index.html). HTML, CSS e JS inline, sem build, sem dependência, sem framework. Abre em qualquer navegador ou vai direto pro Cloudflare Workers.
 
@@ -32,7 +32,7 @@ Outras constantes no mesmo bloco:
 |---|---|---|
 | `SITE` | origem das imagens, hoje apontando pra página de vendas publicada | se a página de vendas mudar de domínio, as imagens do quiz quebram |
 | `TICKET` | R$35, o preço médio estimado de 1 pedido com taxa | esse número aparece na tela pro usuário e no rodapé do resultado. Se mudar aqui, muda em todo lugar |
-| `SEMANAS_MES` | 4.3 | usado no cálculo do gasto mensal |
+| `SEMANAS_MES` | 4.3, fallback | só usado se a pergunta `semanas` não vier respondida. Na conta normal, quem decide quantas semanas do mês é a resposta da pessoa |
 
 ---
 

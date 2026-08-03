@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Diagnóstico da sua semana na cozinha | Chef Gui</title>
-<meta name="description" content="Responda 11 perguntas rápidas e descubra o que trava a sua semana na cozinha, quanto isso está te custando por mês e qual roteiro resolve o seu caso.">
+<meta name="description" content="Responda 12 perguntas rápidas e descubra o que trava a sua semana na cozinha, quanto isso está te custando por mês e qual roteiro resolve o seu caso.">
 <meta name="robots" content="noindex">
 <meta property="og:title" content="Diagnóstico da sua semana na cozinha">
 <meta property="og:description" content="Em cerca de 1 minuto você descobre o que trava a sua semana na cozinha e o roteiro que resolve.">
@@ -417,6 +417,16 @@ var FLOW = [
     {v:"6", t:"Quase todo dia"}
   ]},
 
+{ type:"q", id:"semanas", kind:"single",
+  title:"E isso se repete em quantas semanas do mês?",
+  help:"Pensando nas últimas 4 semanas normais.",
+  opts:[
+    {v:"1", t:"Só em 1 das 4 semanas"},
+    {v:"2", t:"Em 2 das 4 semanas"},
+    {v:"3", t:"Em 3 das 4 semanas"},
+    {v:"4", t:"Em todas as 4 semanas"}
+  ]},
+
 { type:"i", id:"conta", render:"conta" },
 
 { type:"q", id:"lixo", kind:"single",
@@ -531,7 +541,13 @@ function brl(n){ return "R$" + Math.round(n).toLocaleString("pt-BR"); }
 function gastoMes(){
   var map = {"1":1.5,"3":3.5,"5":5.5,"6":6.5};
   var v = map[A.fora] || 3.5;
-  return Math.round((v * TICKET * SEMANAS_MES) / 10) * 10;  // arredondado, é estimativa
+  var semanas = Number(A.semanas) || SEMANAS_MES;
+  return Math.round((v * TICKET * semanas) / 10) * 10;  // arredondado, é estimativa
+}
+
+function semanasTxt(){
+  var map = {"1":"1 das 4 semanas","2":"2 das 4 semanas","3":"3 das 4 semanas","4":"todas as 4 semanas"};
+  return map[A.semanas] || "todas as 4 semanas";
 }
 
 /* ==========================================================================
@@ -588,7 +604,7 @@ function renderIntro(){
   el.innerHTML =
     '<img class="logo" src="'+SITE+'/images/logo.png" alt="Chef Gui" width="112" height="112">' +
     '<h1>Descubra o que trava a sua semana na cozinha.</h1>' +
-    '<p>Responda 11 perguntas rápidas e eu monto o seu diagnóstico: o que te prende no delivery, quanto isso custa por mês e o roteiro que resolve o seu caso.</p>' +
+    '<p>Responda 12 perguntas rápidas e eu monto o seu diagnóstico: o que te prende no delivery, quanto isso custa por mês e o roteiro que resolve o seu caso.</p>' +
     '<button class="cta" id="start" type="button">Começar meu diagnóstico ' + ICON.arrow + '</button>' +
     '<span class="time">' + ICON.clock + ' Leva cerca de 1 minuto</span>';
   stage.appendChild(el);
@@ -700,7 +716,7 @@ var INTER = {
         '<div class="bignum">' + brl(g) + '<small>é o que sai por mês em comida de emergência, na sua frequência</small></div>' +
       '</div>' +
       '<div class="media stag" style="animation-delay:150ms"><img src="'+SITE+'/images/gasto-ifood.jpg" width="1254" height="1254" alt="Tela de aplicativo de entrega mostrando o gasto acumulado"></div>' +
-      '<p class="i-body">Contei ' + brl(TICKET) + ' por pedido, que é mais ou menos o que dá um prato com a taxa de entrega. E isso é só o delivery. Ainda tem o que você compra com boa intenção no mercado e vê estragando na geladeira.</p>' +
+      '<p class="i-body">Contei ' + brl(TICKET) + ' por pedido, que é mais ou menos o que dá um prato com a taxa de entrega, na frequência que você marcou, em ' + semanasTxt() + ' do mês. E isso é só o delivery. Ainda tem o que você compra com boa intenção no mercado e vê estragando na geladeira.</p>' +
       '<div class="foot"><button class="cta" id="c" type="button">Continuar ' + ICON.arrow + '</button></div>';
     stage.appendChild(el);
     el.querySelector("#c").addEventListener("click", next);

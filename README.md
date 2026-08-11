@@ -1,6 +1,6 @@
 # Praticidade Quiz
 
-Quiz de vendas do **Guia de Pré-Preparo e Praticidade** (Chef Gui). Tráfego frio de anúncio no Instagram entra aqui, responde 12 perguntas, recebe um diagnóstico personalizado e cai no checkout de R$47.
+Quiz de vendas do **Guia de Pré-Preparo e Praticidade** (Chef Gui). Tráfego frio de anúncio no Instagram entra aqui, responde 11 perguntas, recebe um diagnóstico personalizado e cai no checkout de R$47.
 
 O quiz inteiro é **um arquivo só**: [`index.html`](index.html). HTML, CSS e JS inline, sem build, sem dependência, sem framework. Abre em qualquer navegador ou vai direto pro Cloudflare Workers.
 

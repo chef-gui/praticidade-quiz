@@ -104,5 +104,5 @@ O que foi deliberadamente **não** aproveitado:
 
 - **duas perguntas duplicadas** (a referência pergunta falta de fome e nível de atividade física duas vezes cada). Repetir pergunta quebra a ilusão de personalização na hora
 - **placeholder em produção** ("Exemplo de descrição" numa tela de prova social)
-- **promessa de tempo que não bate**: a referência diz "38 segundos" e tem 15 perguntas. Aqui são 12 perguntas e a promessa é "cerca de 1 minuto"
+- **promessa de tempo que não bate**: a referência diz "38 segundos" e tem 15 perguntas. Aqui são 11 perguntas e a promessa é "cerca de 1 minuto"
 - **captura de WhatsApp no fim**: decisão de ir direto ao checkout

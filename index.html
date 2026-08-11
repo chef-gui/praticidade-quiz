@@ -21,7 +21,7 @@ src="https://www.facebook.com/tr?id=1741967537127415&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Diagnóstico da sua semana na cozinha | Chef Gui</title>
-<meta name="description" content="Responda 12 perguntas rápidas e descubra o que trava a sua semana na cozinha, quanto isso está te custando por mês e qual roteiro resolve o seu caso.">
+<meta name="description" content="Responda 11 perguntas rápidas e descubra o que trava a sua semana na cozinha, quanto isso está te custando por mês e qual roteiro resolve o seu caso.">
 <meta name="robots" content="noindex">
 <meta property="og:title" content="Diagnóstico da sua semana na cozinha">
 <meta property="og:description" content="Em cerca de 1 minuto você descobre o que trava a sua semana na cozinha e o roteiro que resolve.">
@@ -419,13 +419,8 @@ var FLOW = [
     {v:"cozinha",  t:"Cozinho de verdade, mas come um tempo que eu não tenho"}
   ]},
 
-{ type:"q", id:"nome", kind:"text",
-  title:"Antes de continuar, como eu te chamo?",
-  help:"É só pra montar o seu diagnóstico com o seu nome. Nada é enviado pra lugar nenhum.",
-  placeholder:"Seu primeiro nome" },
-
 { type:"q", id:"fora", kind:"single",
-  title:"{nome}, numa semana comum, quantas vezes a comida vem de fora?",
+  title:"Numa semana comum, quantas vezes a comida vem de fora?",
   help:"Vale delivery, marmitaria, lanche na volta do trabalho.",
   opts:[
     {v:"1", t:"1 ou 2 vezes"},
@@ -621,7 +616,7 @@ function renderIntro(){
   el.innerHTML =
     '<img class="logo" src="'+SITE+'/images/logo.png" alt="Chef Gui" width="112" height="112">' +
     '<h1>Descubra o que trava a sua semana na cozinha.</h1>' +
-    '<p>Responda 12 perguntas rápidas e eu monto o seu diagnóstico: o que te prende no delivery, quanto isso custa por mês e o roteiro que resolve o seu caso.</p>' +
+    '<p>Responda 11 perguntas rápidas e eu monto o seu diagnóstico: o que te prende no delivery, quanto isso custa por mês e o roteiro que resolve o seu caso.</p>' +
     '<button class="cta" id="start" type="button">Começar meu diagnóstico ' + ICON.arrow + '</button>' +
     '<span class="time">' + ICON.clock + ' Leva cerca de 1 minuto</span>';
   stage.appendChild(el);
@@ -728,7 +723,7 @@ var INTER = {
     var el = document.createElement("div");
     el.className = "screen";
     el.innerHTML =
-      '<h1 class="i-title">' + esc(nome()) + ', essa é a sua conta do mês.</h1>' +
+      '<h1 class="i-title">Essa é a sua conta do mês.</h1>' +
       '<div class="card stag" style="animation-delay:80ms;margin-bottom:18px">' +
         '<div class="bignum">' + brl(g) + '<small>é o que sai por mês em comida de emergência, na sua frequência</small></div>' +
       '</div>' +
@@ -790,7 +785,7 @@ var INTER = {
       return '<div class="step stag" style="animation-delay:'+(60+i*22)+'ms"><span class="s-m">'+s.m+' min</span><span class="s-t">'+esc(s.t)+'</span></div>';
     }).join("");
     el.innerHTML =
-      '<h1 class="i-title">' + esc(nome()) + ', a conta de tempo é essa.</h1>' +
+      '<h1 class="i-title">A conta de tempo é essa.</h1>' +
       '<div class="versus">' +
         '<div class="now"><h3>Hoje, por semana</h3><span class="v">3h45</span><p>Uns 45 min por noite entre decidir, descongelar, cortar, cozinhar e lavar. Cinco noites.</p></div>' +
         '<div class="new"><h3>Com pré-preparo</h3><span class="v">2h30</span><p>Uma vez só, no dia que você escolher. O resto da semana é só fazer carne e montar o prato.</p></div>' +
@@ -814,7 +809,7 @@ function renderLoading(){
         '<svg viewBox="0 0 120 120" aria-hidden="true"><circle class="bgc" cx="60" cy="60" r="52"/><circle class="fgc" id="fg" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>' +
         '<b id="pc">0%</b>' +
       '</div>' +
-      '<h1 class="i-title" style="font-size:1.35rem;margin:0">Montando o plano de ' + esc(nome()) + '</h1>' +
+      '<h1 class="i-title" style="font-size:1.35rem;margin:0">Montando o seu plano</h1>' +
       '<div class="tasks">' + tasks.map(function(t,i){
         return '<div class="task" id="t'+i+'"><i>'+ICON.checkG+'</i><span>'+t+'</span></div>';
       }).join("") + '</div>' +
@@ -940,7 +935,7 @@ function renderResult(){
   el.innerHTML =
     '<section>' +
       '<div class="r-hi">' +
-        '<h1 class="r-profile">' + esc(nome()) + ', ' + esc(perfil.n) + '</h1>' +
+        '<h1 class="r-profile">' + esc(perfil.n.charAt(0).toUpperCase() + perfil.n.slice(1)) + '</h1>' +
         '<p class="r-profile-b">' + esc(perfil.b) + '</p>' +
       '</div>' +
     '</section>' +

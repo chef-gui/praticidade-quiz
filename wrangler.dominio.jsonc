@@ -1,0 +1,20 @@
+// Publica o quiz sob chefgui.com.br/quizprepreparo, num Worker separado do
+// GitHub Pages atual (chef-gui.github.io/praticidade-quiz) — que continua no
+// ar, intocado, até este ser validado.
+// Uso: npx wrangler deploy -c wrangler.dominio.jsonc
+{
+  "name": "quiz-prepreparo-dominio",
+  "compatibility_date": "2025-01-01",
+  "main": "worker/portal.js",
+  "assets": {
+    // So o que e publico vive aqui dentro. Nada fora desta pasta (docs, o
+    // proprio worker, o wrangler.jsonc, .git) pode vazar por acidente.
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "vars": {
+    "BASE_PATH": "/quizprepreparo"
+  },
+  "routes": [{ "pattern": "chefgui.com.br/quizprepreparo*", "zone_name": "chefgui.com.br" }]
+}

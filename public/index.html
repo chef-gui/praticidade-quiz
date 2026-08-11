@@ -21,7 +21,7 @@ src="https://www.facebook.com/tr?id=1741967537127415&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Diagnóstico da sua semana na cozinha | Chef Gui</title>
-<meta name="description" content="Responda 11 perguntas rápidas e descubra o que trava a sua semana na cozinha, quanto isso está te custando por mês e qual roteiro resolve o seu caso.">
+<meta name="description" content="Responda 10 perguntas rápidas e descubra o que trava a sua semana na cozinha, quanto isso está te custando por mês e qual roteiro resolve o seu caso.">
 <meta name="robots" content="noindex">
 <meta property="og:title" content="Diagnóstico da sua semana na cozinha">
 <meta property="og:description" content="Em cerca de 1 minuto você descobre o que trava a sua semana na cozinha e o roteiro que resolve.">
@@ -89,17 +89,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 }
 .back:active{transform:scale(.92)}
 .back[hidden]{display:none}
-.track{
-  flex:1;height:6px;background:var(--line);border-radius:var(--r-pill);overflow:hidden;
-}
-.track > i{
-  display:block;height:100%;width:0%;background:var(--primary);
-  border-radius:var(--r-pill);transition:width .45s var(--ease);
-}
-.counter{
-  font-family:var(--font-mono);font-size:12px;font-weight:700;
-  color:var(--ink-soft);letter-spacing:.02em;flex:0 0 auto;
-}
 .stage{
   flex:1;display:flex;flex-direction:column;
   padding:8px 20px 32px;
@@ -302,12 +291,23 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
   background:var(--ink);color:#FFF3E9;border-radius:var(--r-card);
   padding:24px 22px;box-shadow:var(--sh-lift);
 }
-.offer h2{color:#fff;font-size:1.35rem;margin-bottom:8px;line-height:1.2}
+.offer h2{color:#fff;font-size:1.35rem;margin-bottom:14px;line-height:1.2}
 .offer > p{margin:0 0 18px;color:#D9C9BC;font-size:.95rem}
+.offer-anchor{
+  margin:0 0 16px;padding:12px 14px;border-radius:12px;
+  background:rgba(255,255,255,.06);color:#EFE0D3;font-size:.88rem;line-height:1.4;
+}
+.offer-anchor strong{color:#fff;font-family:var(--font-mono);font-weight:700}
+.offer-stack{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px}
+.offer-stack li{
+  display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:#EFE0D3;line-height:1.4;
+}
+.offer-stack li::before{content:"";flex:0 0 5px;width:5px;height:5px;margin-top:8px;border-radius:50%;background:var(--primary)}
 .price{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
 .price .n{font-family:var(--font-mono);font-weight:700;font-size:2.7rem;color:#fff;line-height:1}
 .price .u{font-size:.9rem;color:#D9C9BC}
-.perks{list-style:none;margin:16px 0 20px;padding:0;display:grid;gap:9px}
+.offer-compare{margin:8px 0 0;color:#D9C9BC;font-size:.88rem}
+.perks{list-style:none;margin:18px 0 20px;padding:16px 0 0;border-top:1px solid rgba(255,255,255,.12);display:grid;gap:9px}
 .perks li{display:flex;align-items:center;gap:10px;font-size:.93rem;color:#EFE0D3}
 .perks svg{width:16px;height:16px;flex:0 0 16px;color:#8CC79B}
 .faq{display:grid;gap:10px}
@@ -365,8 +365,6 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
     <button class="back" id="back" type="button" aria-label="Voltar para a pergunta anterior">
       <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
-    <div class="track" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="trackEl"><i id="bar"></i></div>
-    <span class="counter" id="counter"></span>
   </header>
   <main class="stage" id="stage"></main>
 </div>
@@ -474,16 +472,6 @@ var FLOW = [
 
 { type:"i", id:"pia", render:"pia" },
 
-{ type:"q", id:"pessoas", kind:"single",
-  title:"Você cozinha pra quantas pessoas?",
-  help:"Isso muda as quantidades do seu roteiro.",
-  opts:[
-    {v:"1", t:"Só pra mim"},
-    {v:"2", t:"Pra duas"},
-    {v:"4", t:"Pra 3 ou 4"},
-    {v:"5", t:"Pra mais de 4"}
-  ]},
-
 { type:"q", id:"dia", kind:"single",
   title:"Qual é o dia em que sobra um tempo pra você?",
   opts:[
@@ -534,9 +522,6 @@ var A = {};            // respostas
 var idx = 0;
 var stage = document.getElementById("stage");
 var topbar = document.getElementById("topbar");
-var bar = document.getElementById("bar");
-var trackEl = document.getElementById("trackEl");
-var counter = document.getElementById("counter");
 var backBtn = document.getElementById("back");
 
 try{ var saved = sessionStorage.getItem("cg-quiz"); if(saved){ A = JSON.parse(saved) || {}; } }catch(e){}
@@ -640,14 +625,6 @@ function chrome(){
   var show = (s.type==="q" || s.type==="i");
   topbar.hidden = !show;
   backBtn.hidden = (idx<=1);
-  if(!show) return;
-  var done = 0;
-  for(var i=0;i<idx;i++) if(FLOW[i].type==="q") done++;
-  var pct = Math.round((done/QIDS.length)*100);
-  bar.style.width = pct + "%";
-  trackEl.setAttribute("aria-valuenow", String(pct));
-  // o contador só aparece nas perguntas. Nos interstícios ele confundiria.
-  counter.textContent = (s.type==="q" ? qNumber(s.id) + "/" + QIDS.length : "");
 }
 
 function render(){
@@ -670,7 +647,7 @@ function renderIntro(){
   el.innerHTML =
     '<img class="logo" src="'+SITE+'/images/logo.png" alt="Chef Gui" width="112" height="112">' +
     '<h1>Descubra o que trava a sua semana na cozinha.</h1>' +
-    '<p>Responda 11 perguntas rápidas e eu monto o seu diagnóstico: o que te prende no delivery, quanto isso custa por mês e o roteiro que resolve o seu caso.</p>' +
+    '<p>Responda 10 perguntas rápidas e eu monto o seu diagnóstico: o que te prende no delivery, quanto isso custa por mês e o roteiro que resolve o seu caso.</p>' +
     '<button class="cta" id="start" type="button">Começar meu diagnóstico ' + ICON.arrow + '</button>' +
     '<span class="time">' + ICON.clock + ' Leva cerca de 1 minuto</span>';
   stage.appendChild(el);
@@ -914,7 +891,6 @@ var TRAVA = {
 };
 
 var DIA = {domingo:"domingo", sabado:"sábado", noite:"uma noite de semana", nenhum:"quando der"};
-var PESSOAS = {"1":"1 pessoa","2":"2 pessoas","4":"3 a 4 pessoas","5":"mais de 4 pessoas"};
 var SONHO = {
   treino:"tempo pra treinar", gente:"tempo com quem você ama",
   descanso:"sono sem culpa", projeto:"tempo pro seu projeto"
@@ -956,7 +932,6 @@ function renderResult(){
   var perfil = PERFIL[A.rotina] || PERFIL.decide;
   var trava = TRAVA[A.crenca] || TRAVA.tempo;
   var dia = DIA[A.dia] || "domingo";
-  var pess = PESSOAS[A.pessoas] || "2 pessoas";
   var sonho = SONHO[A.tempoLivre] || "descansar sem culpa";
 
   var lixoLinha = {
@@ -1029,16 +1004,21 @@ function renderResult(){
 
     '<section>' +
       '<div class="offer">' +
+        '<p class="offer-anchor">Pela sua frequência, você já gasta <strong>' + brl(g) + ' por mês</strong> só em comida de emergência.</p>' +
         '<h2>Guia de Pré-Preparo e Praticidade</h2>' +
-        '<p>O método completo, separado por vegetais, proteínas e acompanhamentos, com o roteiro acima e os timers rodando dentro do guia. Abre no celular, na hora que você já está na cozinha.</p>' +
+        '<ul class="offer-stack">' +
+          '<li>Método completo: vegetais, proteínas e acompanhamentos</li>' +
+          '<li>O roteiro de domingo acima, com timer rodando dentro do guia</li>' +
+          '<li>Abre no celular, na hora que você já está na cozinha</li>' +
+        '</ul>' +
         '<div class="price"><span class="n">R$47</span><span class="u">uma vez, pra sempre</span></div>' +
+        '<p class="offer-compare">Menos do que 2 pedidos de delivery.</p>' +
         '<ul class="perks">' +
           '<li>' + ICON.checkG + ' Acesso imediato por e-mail</li>' +
           '<li>' + ICON.checkG + ' Sem assinatura e sem mensalidade</li>' +
           '<li>' + ICON.checkG + ' 7 dias de garantia, sem pergunta</li>' +
         '</ul>' +
         '<a class="cta" href="' + CHECKOUT_URL + '" id="buy">Quero resolver minha semana por R$47 ' + ICON.arrow + '</a>' +
-        '<p class="microcopy" style="color:#C9B5A6;margin-top:14px">Menos do que 2 pedidos de delivery. Você gasta ' + brl(g) + ' por mês com eles.</p>' +
       '</div>' +
     '</section>' +
 

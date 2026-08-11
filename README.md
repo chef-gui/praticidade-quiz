@@ -1,15 +1,17 @@
 # Praticidade Quiz
 
-Quiz de vendas do **Guia de Pré-Preparo e Praticidade** (Chef Gui). Tráfego frio de anúncio no Instagram entra aqui, responde 11 perguntas, recebe um diagnóstico personalizado e cai no checkout de R$47.
+Quiz de vendas do **Guia de Pré-Preparo e Praticidade** (Chef Gui). Tráfego frio de anúncio no Instagram entra aqui, responde 10 perguntas, recebe um diagnóstico personalizado e cai no checkout de R$47.
 
-O quiz inteiro é **um arquivo só**: [`index.html`](index.html). HTML, CSS e JS inline, sem build, sem dependência, sem framework. Abre em qualquer navegador ou vai direto pro Cloudflare Workers.
+O quiz em si é **um arquivo só**: [`public/index.html`](public/index.html). HTML, CSS e JS inline, sem build, sem dependência, sem framework. A pasta `public/` é o que fica público de fato (é o que o Worker serve); `worker/portal.js` e `wrangler.dominio.jsonc` existem só pra publicar em `chefgui.com.br/quizprepreparo`, sem tirar do ar a versão atual no GitHub Pages (`chef-gui.github.io/praticidade-quiz`).
+
+Sem barra de progresso ou contador de pergunta na interface, decisão deliberada. Ver `docs/arquitetura-do-quiz.md`.
 
 ---
 
 ## Rodar localmente
 
 ```bash
-npx -y http-server . -p 8815 -c-1
+npx -y http-server public -p 8815 -c-1
 ```
 
 Depois abre `http://localhost:8815`. Só abrir o arquivo com duplo clique também funciona, mas servir por http evita qualquer surpresa com `sessionStorage`.
@@ -18,7 +20,7 @@ Depois abre `http://localhost:8815`. Só abrir o arquivo com duplo clique també
 
 ## A única coisa que precisa ser trocada
 
-No topo do `<script>` em `index.html`:
+No topo do `<script>` em `public/index.html`:
 
 ```js
 var CHECKOUT_URL = "https://falling-rain-23dc.guilhy-gm.workers.dev/#comprar";
@@ -50,14 +52,14 @@ Detalhe de cada pergunta e de cada interstício em [`docs/arquitetura-do-quiz.md
 
 ## Estrutura do código
 
-Tudo dentro de `index.html`, nessa ordem:
+Tudo dentro de `public/index.html`, nessa ordem:
 
 1. **CSS** com o design system do produto em CSS custom properties (`:root`). As cores, sombras e raios vieram do webapp do guia, não invente valores novos.
 2. **`FLOW`**: array que descreve todas as telas na ordem. É a única fonte da verdade do fluxo. Adicionar pergunta é adicionar objeto nesse array.
 3. **`INTER`**: os 4 interstícios, cada um uma função que monta a tela.
-4. **`PERFIL` / `TRAVA` / `DIA` / `PESSOAS` / `SONHO`**: mapas de resposta para texto do resultado.
+4. **`PERFIL` / `TRAVA` / `DIA` / `SONHO`**: mapas de resposta para texto do resultado.
 5. **`fits()`**: monta a lista "o que o guia resolve no seu caso". Cada bullet só entra se a resposta justificar.
-6. **`renderResult()`**: monta a tela final.
+6. **`renderResult()`**: monta a tela final, incluindo o card de oferta (estruturado com o framework de página de vendas: âncora de valor real, empilhamento do que vem no guia, preço, garantia).
 
 ### Adicionar uma pergunta
 
@@ -68,7 +70,7 @@ Tudo dentro de `index.html`, nessa ordem:
   opts:[ {v:"valor", t:"Texto da alternativa"} ] }
 ```
 
-`single` avança sozinho ao clicar. `multi` e `text` mostram botão Continuar. A barra de progresso conta só perguntas, interstícios não entram na conta.
+`single` avança sozinho ao clicar. `multi` e `text` mostram botão Continuar.
 
 ### Adicionar um interstício
 
@@ -116,7 +118,8 @@ Testado em 390px de largura, 4 caminhos diferentes de resposta:
 
 ## O que ainda falta
 
-- [ ] Trocar `CHECKOUT_URL` pelo link real da Hotmart
+- [x] Trocar `CHECKOUT_URL` pelo link real da Hotmart
+- [x] Pixel de conversão (Meta) e eventos de funil (`QuizIniciado`, `QuizProgresso`, `QuizConcluido`, `InitiateCheckout`)
+- [x] Publicar via Cloudflare Workers, em `chefgui.com.br/quizprepreparo`, sem derrubar o GitHub Pages atual
+- [ ] Validar o Worker do domínio próprio em produção e decidir se ele substitui o GitHub Pages ou os dois ficam no ar
 - [ ] Decidir se as imagens continuam sendo servidas pela página de vendas ou se vão pra dentro deste repositório
-- [ ] Pixel de conversão (Meta) e evento de conclusão do quiz, se for rodar tráfego pago
-- [ ] Publicar (Cloudflare Workers, mesmo caminho da página de vendas)

@@ -545,6 +545,59 @@ function persist(){ try{ sessionStorage.setItem("cg-quiz", JSON.stringify(A)); }
 var QIDS = FLOW.filter(function(s){return s.type==="q";}).map(function(s){return s.id;});
 function qNumber(id){ return QIDS.indexOf(id)+1; }
 
+/* ==========================================================================
+   MEDIÇÃO (Meta Pixel)
+   O pixel sozinho só registra PageView: quem chegou. Sem os eventos abaixo o
+   funil vira uma caixa preta, dá pra ver quantos entraram e quantos compraram,
+   mas não onde os outros desistiram.
+   ========================================================================== */
+var jaEnviado = {};   // cada etapa conta uma vez só, mesmo se a pessoa voltar
+
+function medir(evento, dados, padrao){
+  if(typeof fbq !== "function") return;   // pixel bloqueado ou ainda carregando
+  try{ fbq(padrao ? "track" : "trackCustom", evento, dados || {}); }catch(e){}
+}
+
+function medirTela(){
+  var s = FLOW[idx];
+  if(!s) return;
+
+  if(s.type === "q"){
+    var n = qNumber(s.id);
+    if(n === 1 && !jaEnviado.inicio){
+      jaEnviado.inicio = true;
+      medir("QuizIniciado");
+    }
+    if(!jaEnviado["q" + n]){
+      jaEnviado["q" + n] = true;
+      // é este evento que mostra em qual pergunta as pessoas param
+      medir("QuizProgresso", { pergunta: n, de: QIDS.length, id: s.id });
+    }
+  }
+
+  if(s.type === "result" && !jaEnviado.fim){
+    jaEnviado.fim = true;
+    medir("QuizConcluido");
+    ligarBotoesDeCompra();
+  }
+}
+
+/* InitiateCheckout é evento padrão da Meta: além de medir, permite ao algoritmo
+   otimizar para quem chega ao checkout, em vez de otimizar só para cliques.
+
+   Usa onclick em vez de addEventListener de propósito: o script do pixel
+   substitui o addEventListener para fazer rastreamento automático, e registrar
+   por lá dispara um erro quando o script da Meta ainda não terminou de carregar
+   (visto em teste). Atribuir onclick direto não passa por essa substituição. */
+function ligarBotoesDeCompra(){
+  var links = stage.querySelectorAll('a[href*="pay.hotmart.com"]');
+  for(var i=0;i<links.length;i++){
+    links[i].onclick = function(){
+      medir("InitiateCheckout", { value: 47, currency: "BRL" }, true);
+    };
+  }
+}
+
 function nome(){ return A.nome ? A.nome : "Você"; }
 function tok(s){ return String(s).replace(/\{nome\}/g, A.nome ? A.nome : "Olha"); }
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
@@ -568,6 +621,7 @@ function semanasTxt(){
 function go(n){
   idx = Math.max(0, Math.min(FLOW.length-1, n));
   render();
+  medirTela();
   window.scrollTo(0,0);
   // foco no título da tela nova, para leitor de tela e navegação por teclado
   var h = stage.querySelector("h1");

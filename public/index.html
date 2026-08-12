@@ -109,7 +109,20 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 .i-body{color:var(--ink-soft);font-size:1rem;margin:0 0 16px}
 .i-body strong{color:var(--ink);font-weight:600}
 
+/* fala assinada do Chef Gui: o porquê do guia, na voz dele */
+.chef{
+  background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--primary);
+  border-radius:var(--r-card);padding:16px 18px;box-shadow:var(--sh-soft);margin:0 0 18px;
+}
+.chef p{margin:0;color:var(--ink-soft);font-size:.95rem;line-height:1.5}
+.chef .sign{
+  margin-top:10px;font-family:var(--font-display);font-weight:700;
+  color:var(--ink);font-size:.95rem;
+}
+
 /* texto corrido justificado, parágrafo de uma linha não é afetado */
+/* a fala do chef fica fora daqui de propósito: justificar uma citação curta
+   abre buracos entre as palavras no celular */
 .q-help,.i-body,.r-p,.fit p,.offer>p{
   text-align:justify;text-align-last:left;-webkit-hyphens:auto;hyphens:auto;
 }
@@ -197,7 +210,7 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
   font-family:var(--font-mono);font-weight:700;font-size:2.9rem;line-height:1;
   color:var(--primary);letter-spacing:-.02em;
 }
-.bignum small{font-size:1.1rem;font-weight:500;color:var(--ink-soft);display:block;margin-top:8px;font-family:var(--font-body);letter-spacing:0}
+.bignum small{font-size:1.1rem;font-weight:500;line-height:1.4;color:var(--ink-soft);display:block;margin-top:8px;font-family:var(--font-body);letter-spacing:0}
 
 /* comparação de tempo animada (usada 1x, interstício "tempo") */
 .timecomp{display:grid;gap:12px;margin-bottom:18px}
@@ -253,8 +266,7 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
   background:var(--surface);border:1px solid var(--line);border-radius:14px;
   padding:11px 12px;box-shadow:var(--sh-soft);
 }
-.step .s-m{font-family:var(--font-mono);font-weight:700;font-size:.78rem;color:var(--primary);display:block}
-.step .s-t{font-size:.86rem;line-height:1.25;font-weight:500;margin-top:2px;display:block}
+.step .s-t{font-size:.86rem;line-height:1.25;font-weight:500;display:block}
 
 /* ---------- Loading ---------- */
 .loader{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:22px;padding:20px 0}
@@ -335,6 +347,14 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 .perks{list-style:none;margin:18px 0 20px;padding:16px 0 0;border-top:1px solid rgba(255,255,255,.12);display:grid;gap:9px}
 .perks li{display:flex;align-items:center;gap:10px;font-size:.93rem;color:#EFE0D3}
 .perks svg{width:16px;height:16px;flex:0 0 16px;color:#8CC79B}
+/* é o clique que decide a venda: mais alto e com sombra mais forte que os
+   outros CTAs, sem mudar o tamanho da fonte (o rótulo já ocupa a linha toda) */
+.offer .cta{min-height:62px;padding:19px 18px;box-shadow:0 12px 32px rgba(230,57,70,.45)}
+.offer-guar{
+  display:flex;align-items:flex-start;justify-content:center;gap:8px;
+  margin:14px 0 0;color:#D9C9BC;font-size:.85rem;line-height:1.35;
+}
+.offer-guar svg{width:15px;height:15px;flex:0 0 15px;margin-top:3px;color:#8CC79B}
 .faq{display:grid;gap:10px}
 .faq details{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
@@ -795,7 +815,7 @@ var INTER = {
     var c = A.crenca;
     var linha = {
       tempo:  "Você não está sem tempo. Você está tentando cozinhar na pior hora do dia.",
-      jeito:  "Isso que você chama de falta de jeito tem outro nome: falta de ordem.",
+      jeito:  "Isso que você chama de falta de jeito tem outro nome: falta de técnica.",
       desiste:"Você não desistiu por preguiça. Desistiu porque começou sem sistema.",
       louca:  "O que cansa não é cozinhar. É recomeçar a bagunça toda noite."
     }[c] || "O problema nunca foi força de vontade.";
@@ -806,7 +826,11 @@ var INTER = {
       '<h1 class="i-title">' + esc(linha) + '</h1>' +
       '<p class="i-body">Ninguém abre a geladeira e já sabe o jantar da semana por talento. Isso é <strong>técnica</strong>: cortar pensando no que vem depois, guardar do jeito certo, saber o que dura e o que não dura.</p>' +
       '<div class="media stag" style="animation-delay:120ms"><img src="'+SITE+'/images/montagem.jpeg" width="1600" height="1600" alt="Chef Gui cozinhando e pratos preparados por ele"></div>' +
-      '<p class="i-body">Quem resolve a semana numa tarde não nasceu sabendo. Aprendeu a ordem das coisas, e repete toda semana sem pensar.</p>' +
+      '<div class="chef stag" style="animation-delay:180ms">' +
+        '<p>Cansei de ouvir relatos do tipo: passo tempo demais na cozinha, a carne demora muito tempo para descongelar na hora que vou cozinhar, as verduras ficam murchas rápido ou estragam. Fiz esse guia para resolver esses problemas. São técnicas gastronômicas fáceis de serem aplicadas mas dão um grande resultado.</p>' +
+        '<p class="sign">Chef Gui</p>' +
+      '</div>' +
+      '<p class="i-body">Quem resolve a semana numa tarde não nasceu sabendo. Aprendeu a técnica das coisas, e repete toda semana sem pensar.</p>' +
       '<div class="foot"><button class="cta" id="c" type="button">Continuar ' + ICON.arrow + '</button></div>';
     stage.appendChild(el);
     el.querySelector("#c").addEventListener("click", next);
@@ -1026,19 +1050,18 @@ function fits(){
     out.push({c:"var(--prot)", b:"Não é marmita congelada",
       p:"O congelador é apoio, nunca o destino final. A carne vai temperada e crua no saco achatado, e é feita na hora, em 10 minutos. Sem gosto de requentado."});
   }
+  // entra em todo caminho: é a promessa que o guia repete em todas as categorias
+  out.push({c:"var(--veg)", b:"Legume que aguenta a semana sem murchar",
+    p:"O branqueamento trava a cor e a textura: água fervendo, choque no gelo, escorrer bem e guardar seco. Brócolis, cenoura e vagem chegam no fim da semana com mordida, não moles no fundo do pote."});
   if(A.tentou==="nunca" || A.tentou==="durou" || A.tentou==="improviso"){
-    out.push({c:"var(--acmp)", b:"Meu Domingo, o roteiro com timer",
-      p:"As 12 etapas na ordem certa, cada uma com o timer rodando dentro do guia. Você acompanha igual rastreador de pedido e sabe exatamente onde parou."});
+    out.push({c:"var(--acmp)", b:"Meu Domingo, o checklist do dia",
+      p:"As 12 etapas na ordem certa, uma embaixo da outra. Você vai marcando o que já fez e sabe exatamente onde parou."});
   }
   if(casa.indexOf("basico")>-1 || casa.length===0){
     out.push({c:"var(--veg)", b:"Funciona com o que você já tem",
       p:"Nada de equipamento caro. Pote com tampa, saco, papel-toalha e a sua geladeira. O método é sobre técnica, não sobre cozinha equipada."});
   }
-  if(A.dia==="nenhum" || A.crenca==="tempo"){
-    out.push({c:"var(--prot)", b:"Modo Na Correria",
-      p:"Cada alimento tem duas versões: o passo a passo seco pra executar com a mão suja, e o Modo Chef quando você quiser entender o porquê. Você escolhe na hora."});
-  }
-  return out.slice(0,4);
+  return out.slice(0,5);
 }
 
 function renderResult(){
@@ -1071,8 +1094,10 @@ function renderResult(){
       '<span><b>'+esc(f.b)+'</b><p>'+esc(f.p)+'</p></span></div>';
   }).join("");
 
+  // sem o minuto de cada etapa: o total já está no chip acima, e o minuto solto
+  // fazia a pessoa somar 12 números pra desconfiar do total
   var stepsHtml = ROTEIRO.map(function(s){
-    return '<div class="step"><span class="s-m">'+s.m+' min</span><span class="s-t">'+esc(s.t)+'</span></div>';
+    return '<div class="step"><span class="s-t">'+esc(s.t)+'</span></div>';
   }).join("");
 
   el.innerHTML =
@@ -1122,17 +1147,19 @@ function renderResult(){
         '<h2>Guia de Pré-Preparo e Praticidade</h2>' +
         '<ul class="offer-stack">' +
           '<li>Método completo: vegetais, proteínas e acompanhamentos</li>' +
-          '<li>O roteiro de domingo acima, com timer rodando dentro do guia</li>' +
+          '<li>O roteiro de domingo acima, em checklist pra você ir marcando</li>' +
           '<li>Abre no celular, na hora que você já está na cozinha</li>' +
         '</ul>' +
         '<div class="price"><span class="n">R$47</span><span class="u">uma vez, pra sempre</span></div>' +
-        '<p class="offer-compare">Menos do que 2 pedidos de delivery.</p>' +
+        '<p class="offer-compare">Menos do que <span class="mono">2</span> pedidos de delivery. Você paga uma vez, e os <span class="mono">' + brl(g) + '</span> voltam todo mês.</p>' +
         '<ul class="perks">' +
           '<li>' + ICON.checkG + ' Acesso imediato por e-mail</li>' +
           '<li>' + ICON.checkG + ' Sem assinatura e sem mensalidade</li>' +
-          '<li>' + ICON.checkG + ' 7 dias de garantia, sem pergunta</li>' +
-        '</ul>' +
-        '<a class="cta" href="' + CHECKOUT_URL + '" id="buy">Quero resolver minha semana por R$47 ' + ICON.arrow + '</a>' +
+        '</ul>' +   /* a garantia saiu daqui e virou selo embaixo do botão, colada no clique */
+        /* rótulo sem o preço: ele já está em 2.7rem logo acima, e com o preço
+           junto a linha quebra em 390px */
+        '<a class="cta" href="' + CHECKOUT_URL + '" id="buy">Quero resolver minha semana ' + ICON.arrow + '</a>' +
+        '<p class="offer-guar">' + ICON.checkG + '<span>7 dias de garantia. Se não for pra você, devolvemos o valor.</span></p>' +
       '</div>' +
     '</section>' +
 
@@ -1147,7 +1174,10 @@ function renderResult(){
 
     '<section>' +
       '<h2 class="r-h">Do outro lado disso tem ' + esc(sonho) + '.</h2>' +
-      '<p class="r-p">Chega o fim do dia e você já sabe o que vai comer. A geladeira está organizada, o tempero já foi feito. Você esquenta, monta o prato, e o tempo que sobra é seu.</p>' +
+      '<div class="card">' +
+        '<div class="bignum">1h45<small>por semana fora da cozinha, cerca de <span class="mono">7h</span> por mês. É a diferença entre as <span class="mono">3h45</span> que a comida da semana leva sem ordem e as <span class="mono">2h00</span> do roteiro acima.</small></div>' +
+      '</div>' +
+      '<p class="r-p" style="margin-top:14px">Chega o fim do dia e você já sabe o que vai comer. A geladeira está organizada, o tempero já foi feito. Você esquenta, monta o prato, e o tempo que sobra é seu.</p>' +
     '</section>' +
 
     '<p class="legal">Chef Gui · Guia de Pré-Preparo e Praticidade<br>Produto digital entregue via Hotmart. O valor de ' + brl(g) + ' é uma estimativa a partir das suas respostas, considerando ' + brl(TICKET) + ' por pedido.</p>' +

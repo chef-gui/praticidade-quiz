@@ -1055,12 +1055,12 @@ function renderResult(){
     parei:"E você já parou de comprar verdura pra não ver estragando. Isso é o desperdício cobrando de outro jeito."
   }[A.lixo] || "";
 
-  // 2h30 seguidas só fazem sentido pra quem tem um dia livre. Nos outros casos, o
+  // 2h seguidas só fazem sentido pra quem tem um dia livre. Nos outros casos, o
   // roteiro é entregue partido, senão a pessoa já lê o plano sabendo que não vai dar.
   var planoNota = {
-    noite:"2h30 depois do trabalho não existe, então parta em dois: vegetais e temperos numa noite, carnes e acompanhamentos na outra. São uns 75 minutos cada.",
-    nenhum:"Como não sobra um dia inteiro, quebre o roteiro em dois blocos de 1h15. Vegetais e temperos num dia, carnes e acompanhamentos no outro."
-  }[A.dia] || "Um roteiro de cerca de 2h30 em um dia para agilizar a comida pelo resto da semana.";
+    noite:"2h00 depois do trabalho não existe, então parta em dois: vegetais e temperos numa noite, carnes e acompanhamentos na outra. São uns 60 minutos cada.",
+    nenhum:"Como não sobra um dia inteiro, quebre o roteiro em dois blocos de 1h00. Vegetais e temperos num dia, carnes e acompanhamentos no outro."
+  }[A.dia] || "Um roteiro de cerca de 2h00 em um dia para agilizar a comida pelo resto da semana.";
 
   var el = document.createElement("div");
   el.className = "screen result";
@@ -1100,7 +1100,7 @@ function renderResult(){
       '<h2 class="r-h">Seu roteiro</h2>' +
       '<div class="plan-meta">' +
         '<span class="chip"><span class="k">dia</span> ' + esc(dia) + '</span>' +
-        '<span class="chip"><span class="k">tempo:</span> <span class="mono">cerca de 2h30</span></span>' +
+        '<span class="chip"><span class="k">tempo:</span> <span class="mono">cerca de 2h00</span></span>' +
         '<span class="chip"><span class="k">porções:</span> conforme necessidade</span>' +
       '</div>' +
       '<p class="r-p">' + esc(planoNota) + '</p>' +
@@ -1139,7 +1139,7 @@ function renderResult(){
     '<section>' +
       '<h2 class="r-h">Ainda na dúvida?</h2>' +
       '<div class="faq">' +
-        '<details><summary>E se eu não tiver tempo nem pra isso?</summary><p>São cerca de 2h30 em um dia, mas você pode parcelar em duas partes. Em um dia faz as guarnições, no outro as carnes e saladas.</p></details>' +
+        '<details><summary>E se eu não tiver tempo nem pra isso?</summary><p>São cerca de 2 horas em um dia, mas você pode parcelar em duas partes. Em um dia faz as guarnições, no outro as carnes e saladas.</p></details>' +
         '<details><summary>Como eu recebo depois de comprar?</summary><p>Assim que o pagamento é confirmado, a Hotmart manda um e-mail com o acesso. O guia abre direto no navegador do celular ou do computador, sem instalar nada.</p></details>' +
         '<details><summary>E se não servir pra mim?</summary><p>Você tem 7 dias de garantia. Se não for pra você, devolvemos o valor. Sem pergunta, sem enrolação.</p></details>' +
       '</div>' +

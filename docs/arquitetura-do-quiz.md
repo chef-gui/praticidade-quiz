@@ -38,7 +38,7 @@ Um quiz que só pergunta e entrega uma oferta no fim não desmonta nenhuma das d
 | 9 | **Interstício: zona de perigo** | `pia` | Autoridade técnica com dado real do guia (4°C a 60°C, 3 métodos com tempos) |
 | 10 | Qual dia sobra | `dia` | Define o formato do roteiro no resultado |
 | 11 | O que tem em casa | `casa` | Múltipla escolha. Baixa a barreira de entrada |
-| 12 | **Interstício: conta de tempo** | `tempo` | 3h45 espalhadas vs 2h30 numa vez + as 12 etapas reais |
+| 12 | **Interstício: conta de tempo** | `tempo` | Comparação animada 3h45 (sem organização) vs 2h00 (com o método), contadores simultâneos, revela "1h45 economizada por semana". Não usa mais o `ROTEIRO` de 12 etapas, essas continuam só no resultado final |
 | 13 | Já tentou antes | `tentou` | Todas as opções absolvem. Prepara o "não foi você, foi a falta de sistema" |
 | 14 | O que faria com o tempo | `tempoLivre` | Aspiração. Fecha o resultado |
 | 15 | Carregando | | 2,3s, monta o plano |

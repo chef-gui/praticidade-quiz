@@ -115,12 +115,13 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 }
 
 /* ---------- Opções ---------- */
-.opts{display:grid;gap:10px;margin:0 0 8px}
+/* grade 2x2 ("quadrados"): duas colunas, linhas do tamanho do maior item */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 8px}
 .opt{
-  width:100%;text-align:left;background:var(--surface);
+  width:100%;height:100%;text-align:left;background:var(--surface);
   border:1.5px solid var(--line);border-radius:var(--r-card);
-  padding:16px 18px;min-height:56px;
-  display:flex;align-items:center;gap:14px;
+  padding:14px;min-height:88px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:10px;
   box-shadow:var(--sh-soft);
   transition:transform .16s var(--ease),border-color .16s,box-shadow .16s,background .16s;
 }
@@ -128,12 +129,12 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 .opt:active{transform:scale(.982)}
 .opt:focus-visible{outline:3px solid rgba(230,57,70,.35);outline-offset:2px}
 .opt .dot{
-  flex:0 0 22px;height:22px;border-radius:var(--r-pill);
+  flex:0 0 22px;width:22px;height:22px;border-radius:var(--r-pill);
   border:2px solid var(--line);background:var(--bg);
   display:grid;place-items:center;transition:all .18s var(--ease);
 }
 .opt .dot svg{width:12px;height:12px;opacity:0;transform:scale(.5);transition:all .18s var(--ease)}
-.opt .txt{flex:1;font-size:1rem;line-height:1.35}
+.opt .txt{flex:1;font-size:.94rem;line-height:1.3}
 .opt[aria-checked="true"],.opt[aria-pressed="true"]{
   border-color:var(--primary);background:#FFF4F4;box-shadow:var(--sh-card);
 }
@@ -141,7 +142,7 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
   background:var(--primary);border-color:var(--primary);
 }
 .opt[aria-checked="true"] .dot svg,.opt[aria-pressed="true"] .dot svg{opacity:1;transform:scale(1)}
-.opt.quote .txt{font-size:.99rem}
+.opt.quote .txt{font-size:.88rem}
 .opt.quote .txt b{font-weight:600}
 
 /* ---------- Botões ---------- */
@@ -198,18 +199,42 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 }
 .bignum small{font-size:1.1rem;font-weight:500;color:var(--ink-soft);display:block;margin-top:8px;font-family:var(--font-body);letter-spacing:0}
 
-/* comparativo (usado 1x) */
-.versus{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.versus > div{
-  border-radius:var(--r-card);padding:16px;border:1px solid var(--line);
-  background:var(--surface);box-shadow:var(--sh-soft);
+/* comparação de tempo animada (usada 1x, interstício "tempo") */
+.timecomp{display:grid;gap:12px;margin-bottom:18px}
+.tc-row{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
+  padding:14px 16px;box-shadow:var(--sh-soft);
 }
-.versus .now{background:var(--surface-2)}
-.versus h3{font-size:.8rem;text-transform:none;font-weight:700;color:var(--ink-soft);margin-bottom:6px;font-family:var(--font-body)}
-.versus .v{font-family:var(--font-mono);font-weight:700;font-size:1.75rem;line-height:1}
-.versus .now .v{color:var(--ink-soft)}
-.versus .new .v{color:var(--veg)}
-.versus p{margin:8px 0 0;font-size:.84rem;color:var(--ink-soft);line-height:1.4}
+.tc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.tc-label{display:flex;align-items:center;gap:7px;font-weight:600;font-size:.9rem;color:var(--ink-soft)}
+.tc-label svg{width:15px;height:15px;flex:0 0 15px}
+.tc-vwrap{display:flex;align-items:center;gap:6px}
+.tc-val{font-family:var(--font-mono);font-weight:700;font-size:1.35rem;line-height:1;font-variant-numeric:tabular-nums}
+.tc-check{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--veg);color:#fff;display:grid;place-items:center}
+.tc-check[hidden]{display:none}
+.tc-check svg{width:11px;height:11px}
+.tc-bar{height:13px;border-radius:var(--r-pill);background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.tc-fill{display:block;height:100%;width:0%;border-radius:var(--r-pill)}
+.tc-off .tc-val{color:var(--prot)}
+.tc-off .tc-fill{background:var(--prot)}
+.tc-on .tc-val{color:var(--veg)}
+.tc-on .tc-fill{background:var(--veg)}
+@keyframes tcPop{0%{transform:scale(1)}45%{transform:scale(1.015)}100%{transform:scale(1)}}
+.tc-on.done{animation:tcPop .4s var(--ease)}
+
+.tc-result{text-align:center;padding:14px 10px 2px;margin-bottom:18px;animation:enter .45s var(--ease) both}
+.tc-result[hidden]{display:none}
+.tc-result-num{
+  font-family:var(--font-mono);font-weight:700;font-size:clamp(2.5rem,13vw,3.2rem);
+  line-height:1;color:var(--veg);letter-spacing:-.02em;
+}
+.tc-result-label{font-family:var(--font-display);font-weight:700;font-size:1.08rem;margin:6px 0 10px;color:var(--ink)}
+.tc-result-sub{font-size:.86rem;color:var(--ink-soft);margin:0 0 10px;max-width:34ch;margin-left:auto;margin-right:auto}
+.tc-result-pct{
+  display:inline-block;font-family:var(--font-mono);font-size:.76rem;font-weight:700;
+  color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);
+  padding:4px 11px;border-radius:var(--r-pill);
+}
 
 /* métodos de descongelamento (usado 1x) */
 .methods{display:grid;gap:10px;margin-bottom:16px}
@@ -808,26 +833,115 @@ var INTER = {
     el.querySelector("#c").addEventListener("click", next);
   },
 
-  // 4. Mecanismo. A conta de tempo + o roteiro real do produto.
+  // 4. Mecanismo. Comparação animada: sem organização vs com o método.
   tempo:function(){
     var el = document.createElement("div");
     el.className = "screen";
-    var steps = ROTEIRO.map(function(s,i){
-      return '<div class="step stag" style="animation-delay:'+(60+i*22)+'ms"><span class="s-m">'+s.m+' min</span><span class="s-t">'+esc(s.t)+'</span></div>';
-    }).join("");
     el.innerHTML =
-      '<h1 class="i-title">A conta de tempo é essa.</h1>' +
-      '<div class="versus">' +
-        '<div class="now"><h3>Hoje, por semana</h3><span class="v">3h45</span><p>Uns 45 min por noite entre decidir, descongelar, cortar, cozinhar e lavar. Cinco noites.</p></div>' +
-        '<div class="new"><h3>Com pré-preparo</h3><span class="v">2h30</span><p>Uma vez só, no dia que você escolher. O resto da semana é só fazer carne e montar o prato.</p></div>' +
+      '<h1 class="i-title">Veja o que acontece quando você organiza o preparo</h1>' +
+      '<p class="i-body">As mesmas tarefas. Uma ordem muito mais eficiente.</p>' +
+      '<div class="timecomp" id="timecomp">' +
+        '<div class="tc-row tc-off">' +
+          '<div class="tc-head">' +
+            '<span class="tc-label">' + ICON.clock + ' Sem organização</span>' +
+            '<span class="tc-vwrap"><span class="tc-val" id="tc-off-val">0h00</span></span>' +
+          '</div>' +
+          '<div class="tc-bar"><span class="tc-fill" id="tc-off-fill"></span></div>' +
+        '</div>' +
+        '<div class="tc-row tc-on" id="tc-on-row">' +
+          '<div class="tc-head">' +
+            '<span class="tc-label">' + ICON.clock + ' Com o método</span>' +
+            '<span class="tc-vwrap"><span class="tc-val" id="tc-on-val">0h00</span><span class="tc-check" id="tc-check" hidden>' + ICON.checkG + '</span></span>' +
+          '</div>' +
+          '<div class="tc-bar"><span class="tc-fill" id="tc-on-fill"></span></div>' +
+        '</div>' +
       '</div>' +
-      '<p class="i-body">Não é mágica, é ordem. O roteiro tem 12 etapas, e várias rodam ao mesmo tempo, por isso o total fecha em cerca de 2h30:</p>' +
-      '<div class="steps">' + steps + '</div>' +
+      '<div class="tc-result" id="tc-result" hidden>' +
+        '<div class="tc-result-num" id="tc-result-num">1h45</div>' +
+        '<p class="tc-result-label">economizada por semana</p>' +
+        '<p class="tc-result-sub">Quase 7 horas por mês que deixam de ser gastas na cozinha.</p>' +
+        '<span class="tc-result-pct">≈47% menos tempo</span>' +
+      '</div>' +
       '<div class="foot"><button class="cta" id="c" type="button">Ver meu diagnóstico ' + ICON.arrow + '</button></div>';
     stage.appendChild(el);
     el.querySelector("#c").addEventListener("click", next);
+    animarComparacaoTempo(el);
   }
 };
+
+/* Comparação animada do interstício "tempo": dois contadores partem juntos
+   de 0h00, o do método termina primeiro (2h00) e o sem organização segue
+   sozinho até 3h45, revelando o quanto de tempo ainda estaria sendo gasto. */
+function animarComparacaoTempo(el){
+  var SEM_MIN = 225, COM_MIN = 120;  // 3h45 e 2h00
+  var offVal = el.querySelector("#tc-off-val");
+  var onVal = el.querySelector("#tc-on-val");
+  var offFill = el.querySelector("#tc-off-fill");
+  var onFill = el.querySelector("#tc-on-fill");
+  var check = el.querySelector("#tc-check");
+  var onRow = el.querySelector("#tc-on-row");
+  var result = el.querySelector("#tc-result");
+  var alvo = el.querySelector("#timecomp");
+
+  function fmt(min){
+    var total = Math.round(min);  // arredonda o total antes de dividir, senão min%60 pode virar "60"
+    var h = Math.floor(total/60), m = total%60;
+    return h + "h" + (m<10 ? "0"+m : m);
+  }
+
+  var reduzido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function estadoFinal(){
+    offVal.textContent = fmt(SEM_MIN);
+    onVal.textContent = fmt(COM_MIN);
+    offFill.style.width = "100%";
+    onFill.style.width = "100%";
+    check.hidden = false;
+    result.hidden = false;
+  }
+  if(reduzido){ estadoFinal(); return; }
+
+  var rodou = false;
+  function anima(){
+    if(rodou) return;
+    rodou = true;
+    var DUR = 4000, DUR_ON = DUR * (COM_MIN/SEM_MIN);
+    var t0 = null, raf, onFeito = false;
+    function passo(ts){
+      if(!t0) t0 = ts;
+      var dt = ts - t0;
+
+      var pOn = Math.min(1, dt/DUR_ON);
+      onVal.textContent = fmt(COM_MIN*pOn);
+      onFill.style.width = (pOn*100) + "%";
+      if(pOn>=1 && !onFeito){
+        onFeito = true;
+        check.hidden = false;
+        onRow.classList.add("done");
+      }
+
+      var pOff = Math.min(1, dt/DUR);
+      offVal.textContent = fmt(SEM_MIN*pOff);
+      offFill.style.width = (pOff*100) + "%";
+
+      if(dt < DUR){ raf = requestAnimationFrame(passo); }
+      else{ estadoFinal(); }
+    }
+    raf = requestAnimationFrame(passo);
+  }
+
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ anima(); io.disconnect(); }
+      });
+    }, {threshold:.3});
+    io.observe(alvo);
+  }
+  // salvaguarda: a tela já entra rolada pro topo (go() faz scrollTo(0,0)),
+  // então o card quase sempre já está visível. Se o observer não disparar
+  // por algum motivo, isso garante que a animação começa de qualquer jeito.
+  setTimeout(anima, 500);
+}
 
 /* ---------- Loading ---------- */
 function renderLoading(){

@@ -354,7 +354,10 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
   padding:24px 22px;box-shadow:var(--sh-lift);
 }
 .offer h2{color:#fff;font-size:1.35rem;margin-bottom:14px;line-height:1.2}
-.offer > p{margin:0 0 18px;color:#D9C9BC;font-size:.95rem}
+/* só os parágrafos sem classe: com o seletor aberto, esta regra vencia por
+   especificidade as classes de baixo (.offer-compare, .offer-guar) e comia o
+   espaçamento que elas pedem */
+.offer > p:not([class]){margin:0 0 18px;color:#D9C9BC;font-size:.95rem}
 .offer-anchor{
   margin:0 0 16px;padding:12px 14px;border-radius:12px;
   background:rgba(255,255,255,.06);color:#EFE0D3;font-size:.88rem;line-height:1.4;
@@ -368,18 +371,21 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 .price{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
 .price .n{font-family:var(--font-mono);font-weight:700;font-size:2.7rem;color:#fff;line-height:1}
 .price .u{font-size:.9rem;color:#D9C9BC}
-.offer-compare{margin:8px 0 0;color:#D9C9BC;font-size:.88rem}
-.perks{list-style:none;margin:18px 0 20px;padding:16px 0 0;border-top:1px solid rgba(255,255,255,.12);display:grid;gap:9px}
+.offer-compare{margin:8px 0 20px;color:#D9C9BC;font-size:.88rem}
+/* embaixo do botão, sem divisória: o próprio botão já separa do preço */
+.perks{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:9px}
 .perks li{display:flex;align-items:center;gap:10px;font-size:.93rem;color:#EFE0D3}
 .perks svg{width:16px;height:16px;flex:0 0 16px;color:#8CC79B}
 /* é o clique que decide a venda: mais alto e com sombra mais forte que os
    outros CTAs, sem mudar o tamanho da fonte (o rótulo já ocupa a linha toda) */
 .offer .cta{min-height:62px;padding:19px 18px;box-shadow:0 12px 32px rgba(230,57,70,.45)}
+/* mesma família das duas linhas de cima: mesmo recuo, mesmo espaçamento,
+   sem divisória, para os três lerem como uma lista só */
 .offer-guar{
-  display:flex;align-items:flex-start;justify-content:center;gap:8px;
-  margin:14px 0 0;color:#D9C9BC;font-size:.85rem;line-height:1.35;
+  display:flex;align-items:flex-start;gap:10px;
+  margin:9px 0 0;color:#EFE0D3;font-size:.93rem;line-height:1.35;
 }
-.offer-guar svg{width:15px;height:15px;flex:0 0 15px;margin-top:3px;color:#8CC79B}
+.offer-guar svg{width:16px;height:16px;flex:0 0 16px;margin-top:3px;color:#8CC79B}
 .faq{display:grid;gap:10px}
 .faq details{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
@@ -1230,13 +1236,15 @@ function renderResult(){
         '</ul>' +
         '<div class="price"><span class="n">R$47</span><span class="u">uma vez, pra sempre</span></div>' +
         '<p class="offer-compare">Menos do que <span class="mono">2</span> pedidos de delivery. Você paga uma vez, e os <span class="mono">' + brl(g) + '</span> voltam todo mês.</p>' +
-        '<ul class="perks">' +
-          '<li>' + ICON.checkG + ' Acesso imediato por e-mail</li>' +
-          '<li>' + ICON.checkG + ' Sem assinatura e sem mensalidade</li>' +
-        '</ul>' +   /* a garantia saiu daqui e virou selo embaixo do botão, colada no clique */
         /* rótulo sem o preço: ele já está em 2.7rem logo acima, e com o preço
            junto a linha quebra em 390px */
         '<a class="cta" href="' + CHECKOUT_URL + '" id="buy">Quero resolver minha semana ' + ICON.arrow + '</a>' +
+        /* o que vem junto com a compra fica embaixo do botão, as três linhas
+           com o mesmo peso, lidas como uma lista só */
+        '<ul class="perks">' +
+          '<li>' + ICON.checkG + ' Acesso imediato por e-mail</li>' +
+          '<li>' + ICON.checkG + ' Sem assinatura e sem mensalidade</li>' +
+        '</ul>' +
         '<p class="offer-guar">' + ICON.checkG + '<span>7 dias de garantia. Se não for pra você, devolvemos o valor.</span></p>' +
       '</div>' +
     '</section>' +

@@ -210,28 +210,29 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 }
 .bignum small{font-size:1.1rem;font-weight:500;line-height:1.4;color:var(--ink-soft);display:block;margin-top:8px;font-family:var(--font-body);letter-spacing:0}
 
-/* comparação de tempo animada (usada 1x, interstício "tempo") */
-.timecomp{display:grid;gap:12px;margin-bottom:18px}
-.tc-row{
+/* semana em duas faixas (usada 1x, interstício "tempo").
+   A altura das barras é proporção de trabalho, não minuto cravado: o número
+   que a tela promete continua sendo só o 3h45 contra 2h00 do card de baixo. */
+.week{display:grid;gap:12px;margin-bottom:18px}
+.wk-row{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
-  padding:14px 16px;box-shadow:var(--sh-soft);
+  padding:14px 14px 12px;box-shadow:var(--sh-soft);
 }
-.tc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
-.tc-label{display:flex;align-items:center;gap:7px;font-weight:600;font-size:.9rem;color:var(--ink-soft)}
-.tc-label svg{width:15px;height:15px;flex:0 0 15px}
-.tc-vwrap{display:flex;align-items:center;gap:6px}
-.tc-val{font-family:var(--font-mono);font-weight:700;font-size:1.35rem;line-height:1;font-variant-numeric:tabular-nums}
-.tc-check{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--veg);color:#fff;display:grid;place-items:center}
-.tc-check[hidden]{display:none}
-.tc-check svg{width:11px;height:11px}
-.tc-bar{height:13px;border-radius:var(--r-pill);background:var(--bg);border:1px solid var(--line);overflow:hidden}
-.tc-fill{display:block;height:100%;width:0%;border-radius:var(--r-pill)}
-.tc-off .tc-val{color:var(--prot)}
-.tc-off .tc-fill{background:var(--prot)}
-.tc-on .tc-val{color:var(--veg)}
-.tc-on .tc-fill{background:var(--veg)}
-@keyframes tcPop{0%{transform:scale(1)}45%{transform:scale(1.015)}100%{transform:scale(1)}}
-.tc-on.done{animation:tcPop .4s var(--ease)}
+.wk-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
+.wk-label{font-family:var(--font-display);font-weight:700;font-size:.98rem;white-space:nowrap;flex:0 0 auto}
+.wk-note{font-size:.76rem;color:var(--ink-soft);text-align:right;line-height:1.3;flex:1;min-width:0}
+.wk-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.wk-day{display:flex;flex-direction:column;align-items:center;gap:6px}
+.wk-track{width:100%;height:72px;display:flex;align-items:flex-end;justify-content:center}
+.wk-bar{
+  display:block;width:100%;max-width:24px;height:var(--h);border-radius:7px;
+  transform:scaleY(0);transform-origin:bottom;transition:transform .5s var(--ease);
+}
+.week.go .wk-bar{transform:scaleY(1)}
+.wk-d{font-size:.66rem;font-weight:600;color:var(--ink-soft)}
+.wk-off .wk-bar{background:var(--prot)}
+.wk-on .wk-bar{background:var(--veg)}
+.wk-on .wk-bar.sm{opacity:.4}   /* noite de montar, não de cozinhar */
 
 .tc-result{text-align:center;padding:14px 10px 2px;margin-bottom:18px;animation:enter .45s var(--ease) both}
 .tc-result[hidden]{display:none}
@@ -321,6 +322,32 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
 .fit .ic svg{width:16px;height:16px}
 .fit b{display:block;font-family:var(--font-display);font-weight:700;font-size:1rem;line-height:1.2;margin-bottom:3px}
 .fit p{margin:0;font-size:.89rem;color:var(--ink-soft);line-height:1.45}
+
+/* prints de conversa (prova social). O print tem fundo escuro e a página é
+   creme: a borda e o raio evitam que pareça imagem colada por engano. */
+.depos{display:grid;gap:10px;justify-items:center}
+/* Todos os prints são da mesma captura, recortados em larguras diferentes.
+   Esticar cada um até a largura do card deixaria a letra grande num e pequena
+   noutro, então a largura é proporcional à original: mesma escala em todos. */
+.depo{
+  margin:0;width:calc(var(--w) * 100% / 543);max-width:100%;
+  border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--sh-soft);
+}
+.depo img{width:100%;height:auto;display:block}
+
+/* pilares de durabilidade (resultado): nome e técnica à esquerda, prazo à direita */
+.pillars{display:grid;gap:10px;margin-bottom:14px}
+.pillar{
+  display:flex;align-items:flex-start;gap:12px;background:var(--surface);
+  border:1px solid var(--line);border-left:4px solid var(--line);
+  border-radius:var(--r-card);padding:14px 15px;box-shadow:var(--sh-soft);
+}
+.pillar .p-n{font-family:var(--font-display);font-weight:700;font-size:1rem;flex:1;min-width:0}
+.pillar .p-n span{
+  display:block;font-family:var(--font-body);font-weight:400;font-size:.82rem;
+  color:var(--ink-soft);line-height:1.35;margin-top:2px;
+}
+.pillar .p-t{font-family:var(--font-mono);font-weight:700;font-size:.9rem;white-space:nowrap;margin-top:3px}
 
 .offer{
   background:var(--ink);color:#FFF3E9;border-radius:var(--r-card);
@@ -422,6 +449,9 @@ h1:focus{outline:none} /* recebe foco programático a cada tela, não é interat
    ========================================================================== */
 var CHECKOUT_URL = "https://pay.hotmart.com/R107031918M";
 var SITE = "https://falling-rain-23dc.guilhy-gm.workers.dev";
+// Em produção a página vive sob /quizprepreparo, local ela vive na raiz. Caminho
+// relativo quebraria num dos dois casos, dependendo da barra final na URL.
+var BASE = /^\/quizprepreparo/.test(location.pathname) ? "/quizprepreparo/" : "/";
 var TICKET = 35;      // preço médio estimado de 1 pedido com taxa de entrega
 var SEMANAS_MES = 4.3;
 
@@ -855,29 +885,49 @@ var INTER = {
     el.querySelector("#c").addEventListener("click", next);
   },
 
-  // 4. Mecanismo. Comparação animada: sem organização vs com o método.
+  // 4. Mecanismo. A semana em duas faixas: o trabalho sai das noites e vira bloco.
   tempo:function(){
+    var DIAS = ["seg","ter","qua","qui","sex","sáb","dom"];
+
+    // O bloco grande cai no dia que a pessoa marcou na pergunta do dia livre.
+    // Quem não tem dia inteiro recebe o roteiro partido, igual o resultado instrui.
+    var plano = {
+      domingo:{ blocos:[6], alt:100, nota:"um bloco só, o resto é montar" },
+      sabado: { blocos:[5], alt:100, nota:"um bloco só, o resto é montar" },
+      noite:  { blocos:[0,3], alt:54, nota:"dois blocos curtos, o resto é montar" },
+      nenhum: { blocos:[1,4], alt:54, nota:"dois blocos curtos, o resto é montar" }
+    }[A.dia] || { blocos:[6], alt:100, nota:"um bloco só, o resto é montar" };
+
+    function coluna(d, i, altura, grande){
+      return '<span class="wk-day">' +
+          '<span class="wk-track">' +
+            '<i class="wk-bar' + (grande ? "" : " sm") + '" style="--h:' + altura + '%;transition-delay:' + (i*70) + 'ms"></i>' +
+          '</span>' +
+          '<span class="wk-d">' + d + '</span>' +
+        '</span>';
+    }
+    var faixaHoje = DIAS.map(function(d,i){ return coluna(d, i, 62, true); }).join("");
+    var faixaMetodo = DIAS.map(function(d,i){
+      var grande = plano.blocos.indexOf(i) > -1;
+      return coluna(d, i, grande ? plano.alt : 18, grande);
+    }).join("");
+
     var el = document.createElement("div");
     el.className = "screen";
     el.innerHTML =
-      '<h1 class="i-title">Veja o que acontece quando você organiza o preparo</h1>' +
-      '<p class="i-body">As mesmas tarefas. Uma ordem muito mais eficiente.</p>' +
-      '<div class="timecomp" id="timecomp">' +
-        '<div class="tc-row tc-off">' +
-          '<div class="tc-head">' +
-            '<span class="tc-label">' + ICON.clock + ' Sem organização</span>' +
-            '<span class="tc-vwrap"><span class="tc-val" id="tc-off-val">0h00</span></span>' +
-          '</div>' +
-          '<div class="tc-bar"><span class="tc-fill" id="tc-off-fill"></span></div>' +
+      '<h1 class="i-title">Não é cozinhar mais rápido. É cozinhar de uma vez.</h1>' +
+      '<p class="i-body">As mesmas refeições da semana, tiradas das suas noites e resolvidas num bloco só.</p>' +
+      '<div class="week" id="week">' +
+        '<div class="wk-row wk-off">' +
+          '<div class="wk-head"><span class="wk-label">Como é hoje</span><span class="wk-note">toda noite começa do zero</span></div>' +
+          '<div class="wk-days">' + faixaHoje + '</div>' +
         '</div>' +
-        '<div class="tc-row tc-on" id="tc-on-row">' +
-          '<div class="tc-head">' +
-            '<span class="tc-label">' + ICON.clock + ' Com o método</span>' +
-            '<span class="tc-vwrap"><span class="tc-val" id="tc-on-val">0h00</span><span class="tc-check" id="tc-check" hidden>' + ICON.checkG + '</span></span>' +
-          '</div>' +
-          '<div class="tc-bar"><span class="tc-fill" id="tc-on-fill"></span></div>' +
+        '<div class="wk-row wk-on">' +
+          '<div class="wk-head"><span class="wk-label">Com o método</span><span class="wk-note">' + esc(plano.nota) + '</span></div>' +
+          '<div class="wk-days">' + faixaMetodo + '</div>' +
         '</div>' +
       '</div>' +
+      '<p class="i-body">E na quarta você não descongela nada: vegetal branqueado vai direto pro fogo, e arroz, feijão e purê esquentam do congelado, com um fio de água pra devolver a umidade.</p>' +
       '<div class="tc-result" id="tc-result" hidden>' +
         '<div class="tc-result-num" id="tc-result-num">1h45</div>' +
         '<p class="tc-result-label">economizada por semana</p>' +
@@ -887,68 +937,26 @@ var INTER = {
       '<div class="foot"><button class="cta" id="c" type="button">Ver meu diagnóstico ' + ICON.arrow + '</button></div>';
     stage.appendChild(el);
     el.querySelector("#c").addEventListener("click", next);
-    animarComparacaoTempo(el);
+    animarSemana(el);
   }
 };
 
-/* Comparação animada do interstício "tempo": dois contadores partem juntos
-   de 0h00, o do método termina primeiro (2h00) e o sem organização segue
-   sozinho até 3h45, revelando o quanto de tempo ainda estaria sendo gasto. */
-function animarComparacaoTempo(el){
-  var SEM_MIN = 225, COM_MIN = 120;  // 3h45 e 2h00
-  var offVal = el.querySelector("#tc-off-val");
-  var onVal = el.querySelector("#tc-on-val");
-  var offFill = el.querySelector("#tc-off-fill");
-  var onFill = el.querySelector("#tc-on-fill");
-  var check = el.querySelector("#tc-check");
-  var onRow = el.querySelector("#tc-on-row");
+/* Semana em duas faixas do interstício "tempo": as barras sobem em cascata,
+   da segunda ao domingo, e o card de economia entra quando a última terminou. */
+function animarSemana(el){
+  var alvo = el.querySelector("#week");
   var result = el.querySelector("#tc-result");
-  var alvo = el.querySelector("#timecomp");
-
-  function fmt(min){
-    var total = Math.round(min);  // arredonda o total antes de dividir, senão min%60 pode virar "60"
-    var h = Math.floor(total/60), m = total%60;
-    return h + "h" + (m<10 ? "0"+m : m);
-  }
+  var CASCATA = 6*70 + 500;   // último atraso mais a duração da transição
 
   var reduzido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function estadoFinal(){
-    offVal.textContent = fmt(SEM_MIN);
-    onVal.textContent = fmt(COM_MIN);
-    offFill.style.width = "100%";
-    onFill.style.width = "100%";
-    check.hidden = false;
-    result.hidden = false;
-  }
-  if(reduzido){ estadoFinal(); return; }
+  if(reduzido){ alvo.classList.add("go"); result.hidden = false; return; }
 
   var rodou = false;
   function anima(){
     if(rodou) return;
     rodou = true;
-    var DUR = 4000, DUR_ON = DUR * (COM_MIN/SEM_MIN);
-    var t0 = null, raf, onFeito = false;
-    function passo(ts){
-      if(!t0) t0 = ts;
-      var dt = ts - t0;
-
-      var pOn = Math.min(1, dt/DUR_ON);
-      onVal.textContent = fmt(COM_MIN*pOn);
-      onFill.style.width = (pOn*100) + "%";
-      if(pOn>=1 && !onFeito){
-        onFeito = true;
-        check.hidden = false;
-        onRow.classList.add("done");
-      }
-
-      var pOff = Math.min(1, dt/DUR);
-      offVal.textContent = fmt(SEM_MIN*pOff);
-      offFill.style.width = (pOff*100) + "%";
-
-      if(dt < DUR){ raf = requestAnimationFrame(passo); }
-      else{ estadoFinal(); }
-    }
-    raf = requestAnimationFrame(passo);
+    alvo.classList.add("go");
+    setTimeout(function(){ result.hidden = false; }, CASCATA);
   }
 
   if("IntersectionObserver" in window){
@@ -960,7 +968,7 @@ function animarComparacaoTempo(el){
     io.observe(alvo);
   }
   // salvaguarda: a tela já entra rolada pro topo (go() faz scrollTo(0,0)),
-  // então o card quase sempre já está visível. Se o observer não disparar
+  // então a faixa quase sempre já está visível. Se o observer não disparar
   // por algum motivo, isso garante que a animação começa de qualquer jeito.
   setTimeout(anima, 500);
 }
@@ -1048,9 +1056,6 @@ function fits(){
     out.push({c:"var(--prot)", b:"Não é marmita congelada",
       p:"O congelador é apoio, nunca o destino final. A carne vai temperada e crua no saco achatado, e é feita na hora, em 10 minutos. Sem gosto de requentado."});
   }
-  // entra em todo caminho: é a promessa que o guia repete em todas as categorias
-  out.push({c:"var(--veg)", b:"Legume que aguenta a semana sem murchar",
-    p:"O branqueamento trava a cor e a textura: água fervendo, choque no gelo, escorrer bem e guardar seco. Brócolis, cenoura e vagem chegam no fim da semana com mordida, não moles no fundo do pote."});
   if(A.tentou==="nunca" || A.tentou==="durou" || A.tentou==="improviso"){
     out.push({c:"var(--acmp)", b:"Meu Domingo, o checklist do dia",
       p:"As 12 etapas na ordem certa, uma embaixo da outra. Você vai marcando o que já fez e sabe exatamente onde parou."});
@@ -1059,8 +1064,61 @@ function fits(){
     out.push({c:"var(--veg)", b:"Funciona com o que você já tem",
       p:"Nada de equipamento caro. Pote com tampa, saco, papel-toalha e a sua geladeira. O método é sobre técnica, não sobre cozinha equipada."});
   }
-  return out.slice(0,5);
+  return out.slice(0,4);
 }
+
+/* Prints reais de conversa, sem nome nem rosto à mostra. O alt transcreve a
+   mensagem porque a prova está dentro da imagem: sem transcrever, quem usa
+   leitor de tela ou está com a imagem quebrada não recebe nada.
+   O campo "casa" diz se aquele depoimento fala da situação que a pessoa marcou. */
+var DEPOIMENTOS = [
+  { f:"checklist.png", w:526, h:111,
+    alt:"Mensagem de cliente: o guia de praticidade ta me salvando demais, principalmente aquele checklist de domingo, que é o que tem feito eu conseguir me alimentar bem a semana toda. Ainda não acredito que paguei tão barato nisso, se cobrasse 100 reais eu pagaria.",
+    casa:function(){ return A.tentou==="nunca" || A.tentou==="durou" || A.tentou==="improviso"; } },
+  { f:"afinidade.png", w:543, h:97,
+    alt:"Mensagem de cliente: gostei muito, eu não tenho tanta afinidade com a cozinha e pensei que não conseguiria mudar tanto assim. Meus resultados são técnicas bem simples que já fazem uma diferença grande.",
+    casa:function(){ return A.crenca==="jeito"; } },
+  { f:"salada.png", w:536, h:94,
+    alt:"Mensagem de cliente: eu gosto muito de salada e sempre ficavam murchas e xoxas muito rápido, mas agora a alface está durando muito mais e ainda fica crocante. Amei.",
+    casa:function(){ return A.lixo==="muito" || A.lixo==="parei" || A.lixo==="pouco"; } },
+  { f:"frescor.png", w:535, h:101,
+    alt:"Mensagem de cliente: eu não curto aquele gosto de comida congelada, então essas técnicas deixam a comida com aquela sensação de comida feita na hora. Gostei pra caramba.",
+    casa:function(){ return A.tentou==="marmita"; } },
+  { f:"direto.png", w:526, h:73,
+    alt:"Mensagem de cliente: gostei muito do conteúdo, vai direto ao ponto, sem enrolação. Bom pra quem tem rotina corrida, e ainda tem o preço justo.",
+    casa:function(){ return A.crenca==="tempo" || A.dia==="nenhum"; } },
+  { f:"preco.png", w:493, h:48,
+    alt:"Mensagem de cliente: conteúdo fera demais, muito prático, simples e com preço justo.",
+    casa:function(){ return false; } },
+  { f:"amei.png", w:345, h:81,
+    alt:"Mensagem de cliente: está tudo muito lindo e muito bem explicado, eu amei.",
+    casa:function(){ return false; } }
+];
+
+/* Quem fala da situação que a pessoa marcou vem primeiro, o resto mantém a ordem
+   de origem. Feito com duas listas em vez de sort, que não garante estabilidade. */
+function depoimentos(){
+  var casam = [], resto = [];
+  DEPOIMENTOS.forEach(function(d){ (d.casa() ? casam : resto).push(d); });
+  return casam.concat(resto);
+}
+
+function depoHtml(lista){
+  return lista.map(function(d,i){
+    return '<figure class="depo stag" style="--w:'+d.w+';animation-delay:'+(i*70)+'ms">' +
+      '<img src="' + BASE + 'depoimentos/' + d.f + '" width="'+d.w+'" height="'+d.h+'" loading="lazy" alt="'+esc(d.alt)+'">' +
+    '</figure>';
+  }).join("");
+}
+
+/* Os prazos e os nomes vêm do guia, não são estimativa: "Banho de Beleza" e os
+   7 a 10 dias estão em vegetais, o arroz de 3 a 4 dias e o purê de até 5 em
+   acompanhamentos, e os 30 a 60 minutos na tabela de descongelamento. */
+var PILARES = [
+  {c:"var(--veg)",  n:"Folhas", d:"método Banho de Beleza, lavar, secar e guardar no pote forrado", t:"7 a 10 dias"},
+  {c:"var(--acmp)", n:"Acompanhamentos", d:"resfriar rápido e guardar seco, arroz parboilizado espalhado na assadeira", t:"3 a 5 dias"},
+  {c:"var(--prot)", n:"Carnes", d:"temperadas e cruas no saco achatado, descongelando na água fria", t:"30 a 60 min"}
+];
 
 function renderResult(){
   var g = gastoMes();
@@ -1096,6 +1154,16 @@ function renderResult(){
   // fazia a pessoa somar 12 números pra desconfiar do total
   var stepsHtml = ROTEIRO.map(function(s){
     return '<div class="step"><span class="s-t">'+esc(s.t)+'</span></div>';
+  }).join("");
+
+  var depos = depoimentos();
+  var deposTopo = depoHtml(depos.slice(0,4));
+  var deposFim = depoHtml(depos.slice(4));
+
+  var pillarHtml = PILARES.map(function(p,i){
+    return '<div class="pillar stag" style="animation-delay:'+(i*70)+'ms;border-left-color:'+p.c+'">' +
+      '<span class="p-n">'+esc(p.n)+'<span>'+esc(p.d)+'</span></span>' +
+      '<span class="p-t" style="color:'+p.c+'">'+esc(p.t)+'</span></div>';
   }).join("");
 
   el.innerHTML =
@@ -1140,6 +1208,18 @@ function renderResult(){
     '</section>' +
 
     '<section>' +
+      '<h2 class="r-h">Por que a comida chega viva na sexta</h2>' +
+      '<p class="r-p">Um dia de preparo só dura a semana se cada categoria for guardada com a técnica dela. É isso que o guia ensina, com o prazo de cada uma.</p>' +
+      '<div class="pillars">' + pillarHtml + '</div>' +
+      '<p class="r-p">E como nada disso é prato pronto, você monta diferente todo dia. São <span class="mono">5</span> bases de acompanhamento e <span class="mono">4</span> proteínas no guia, o que dá <span class="mono">20</span> combinações de prato sem contar os vegetais.</p>' +
+    '</section>' +
+
+    '<section>' +
+      '<h2 class="r-h">Quem já testou diz assim</h2>' +
+      '<div class="depos">' + deposTopo + '</div>' +
+    '</section>' +
+
+    '<section>' +
       '<div class="offer">' +
         '<p class="offer-anchor">Pela sua frequência, você já gasta <strong>' + brl(g) + ' por mês</strong> só em comida de emergência.</p>' +
         '<h2>Guia de Pré-Preparo e Praticidade</h2>' +
@@ -1159,6 +1239,11 @@ function renderResult(){
         '<a class="cta" href="' + CHECKOUT_URL + '" id="buy">Quero resolver minha semana ' + ICON.arrow + '</a>' +
         '<p class="offer-guar">' + ICON.checkG + '<span>7 dias de garantia. Se não for pra você, devolvemos o valor.</span></p>' +
       '</div>' +
+    '</section>' +
+
+    '<section>' +
+      '<h2 class="r-h">Mais de quem já está usando</h2>' +
+      '<div class="depos">' + deposFim + '</div>' +
     '</section>' +
 
     '<section>' +
